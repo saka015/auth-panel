@@ -11,16 +11,18 @@ export const AuthProvider = ({ children }) => {
   const [allRoles, setAllRoles] = useState([]);
 
   // fetching all users
+  const baseURL = import.meta.env.VITE_API_BASE_URL;
+
   const fetchUserData = async () => {
     const storedToken = localStorage.getItem("token");
     if (storedToken) {
       setUser({ token: storedToken });
 
       try {
-        const response = await axios.get("http://localhost:5000/api/user", {
+        const response = await axios.get(`${baseURL}/user`, {
           headers: { Authorization: `Bearer ${storedToken}` },
         });
-        setLoggedUser(response.data); // Update user data
+        setLoggedUser(response.data);
       } catch (error) {
         console.error(
           "Error fetching user data:",
@@ -32,17 +34,16 @@ export const AuthProvider = ({ children }) => {
     setIsLoading(false);
   };
 
+
+
   // fetching all roles
   const getAllRoles = async () => {
     const token = localStorage.getItem("token");
     if (token) {
       try {
-        const allRoles = await axios.get(
-          "http://localhost:5000/api/admin/getallroles",
-          {
-            headers: { Authorization: `Bearer ${token}` },
-          }
-        );
+        const allRoles = await axios.get(`${baseURL}/admin/getallroles`, {
+          headers: { Authorization: `Bearer ${token}` },
+        });
         setAllRoles(allRoles.data);
       } catch (error) {
         console.error("Error fetching user data:", error);

@@ -30,6 +30,8 @@ const DialogBox = ({ name, onAddUser }) => {
     setIsEmailValid(emailRegex.test(email));
   };
 
+  const baseURL = import.meta.env.VITE_API_BASE_URL;
+
   const handleSubmit = async () => {
     if (!formData.name || !formData.email || !isEmailValid || !formData.role) {
       Swal.fire("Error", "Please fill in all fields correctly.", "error");
@@ -40,7 +42,7 @@ const DialogBox = ({ name, onAddUser }) => {
       const token = localStorage.getItem("token");
 
       const response = await axios.post(
-        "http://localhost:5000/api/admin/createuser",
+        `${baseURL}/admin/createuser`,
         formData,
         {
           headers: {

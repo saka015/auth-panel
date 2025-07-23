@@ -18,6 +18,7 @@ const UserManagement = () => {
   const [editingRole, setEditingRole] = useState(null);
   const { loggedUser, statusAuth, accessAuth, editAuth, deleteAuth, allRoles } =
     useAuth();
+const baseURL = import.meta.env.VITE_API_BASE_URL;
 
   const usersPerPage = 5;
 
@@ -25,7 +26,7 @@ const UserManagement = () => {
     const token = localStorage.getItem("token");
     if (token) {
       try {
-        const response = await axios.get("http://localhost:5000/api/admin", {
+        const response = await axios.get(`${baseURL}/admin`, {
           headers: { Authorization: `Bearer ${token}` },
         });
         setAllUserData(response.data);
@@ -74,7 +75,7 @@ const UserManagement = () => {
         try {
           const token = localStorage.getItem("token");
           await axios.delete(
-            `http://localhost:5000/api/admin/deleteuser/${userId}`,
+            `${baseURL}/admin/deleteuser/${userId}`,
             {
               headers: { Authorization: `Bearer ${token}` },
             }
@@ -110,11 +111,9 @@ const UserManagement = () => {
 
        if (role) updatedUser.role = role._id;
 
-       await axios.put(
-         `http://localhost:5000/api/admin/edituser/${user._id}`,
-         updatedUser,
-         { headers: { Authorization: `Bearer ${token}` } }
-       );
+       await axios.put(`${baseURL}/admin/edituser/${user._id}`, updatedUser, {
+         headers: { Authorization: `Bearer ${token}` },
+       });
        getAllUsers();
        Swal.fire({
          icon: "success",

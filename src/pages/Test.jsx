@@ -6,6 +6,7 @@ import { useNavigate } from "react-router-dom";
 const UserPage = () => {
   const [user, setUser] = useState(null);
   const navigate = useNavigate();
+const baseURL = import.meta.env.VITE_API_BASE_URL;
 
   useEffect(() => {
     const fetchUserData = async () => {
@@ -14,7 +15,7 @@ const UserPage = () => {
       if (token) {
         try {
           // Sending a GET request with Authorization header containing JWT token
-          const response = await axios.get("http://localhost:5000/api/user", {
+          const response = await axios.get(`${baseURL}/user`, {
             headers: { Authorization: `Bearer ${token}` },
           });
           setUser(response.data); // Update user data

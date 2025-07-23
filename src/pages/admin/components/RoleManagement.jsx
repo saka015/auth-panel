@@ -12,6 +12,8 @@ const RoleManagement = () => {
   const [allRoleData, setRoleData] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
+  const baseURL = import.meta.env.VITE_API_BASE_URL;
+
 
   const { loggedUser, statusAuth, accessAuth, editAuth, deleteAuth } =
     useAuth();
@@ -23,7 +25,7 @@ const RoleManagement = () => {
     if (token) {
       try {
         const allRoles = await axios.get(
-          "http://localhost:5000/api/admin/getallroles",
+          `${baseURL}/admin/getallroles`,
           {
             headers: { Authorization: `Bearer ${token}` },
           }
@@ -83,8 +85,8 @@ const RoleManagement = () => {
   };
 
   /*
- 
-     
+
+
 
      if its a editing role : then automaticlay check the boxes according to this logic :let status;
      let access;
@@ -99,8 +101,8 @@ const RoleManagement = () => {
        access = true;
        status = true;
        edit = true;
-     } , 
-     
+     } ,
+
      if : any boxes are gettign changed then change others acocoridning to this logic :
 
 
@@ -125,7 +127,7 @@ const RoleManagement = () => {
       const token = localStorage.getItem("token");
       //Only send the permissions object, not the whole role object.
       await axios.put(
-        `http://localhost:5000/api/admin/editrole/${role._id}`,
+        `${baseURL}/admin/editrole/${role._id}`,
         { permissions: editingPermissions }, // Send only permissions
         { headers: { Authorization: `Bearer ${token}` } }
       );
@@ -160,7 +162,7 @@ const RoleManagement = () => {
         try {
           const token = localStorage.getItem("token");
           await axios.delete(
-            `http://localhost:5000/api/admin/deleterole/${roleId}`, // Use correct endpoint for roles
+            `${baseURL}/admin/deleterole/${roleId}`, // Use correct endpoint for roles
             {
               headers: { Authorization: `Bearer ${token}` },
             }

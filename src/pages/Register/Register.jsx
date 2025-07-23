@@ -33,6 +33,8 @@ export default function Register() {
     return formErrors;
   };
 
+  const baseURL = import.meta.env.VITE_API_BASE_URL;
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     const formErrors = validateForm();
@@ -46,7 +48,7 @@ export default function Register() {
           password: formData.password,
         };
 
-        await axios.post("http://localhost:5000/api/register", formDataObj, {
+        await axios.post(`${baseURL}/register`, formDataObj, {
           headers: { "Content-Type": "application/json" },
         });
 
@@ -64,12 +66,12 @@ export default function Register() {
     }
   };
 
-    useEffect(() => {
-      if (loggedUser) {
-        navigate("/");
-        message.info("You are already logged in.");
-      }
-    }, [loggedUser, navigate]);
+  useEffect(() => {
+    if (loggedUser) {
+      navigate("/");
+      message.info("You are already logged in.");
+    }
+  }, [loggedUser, navigate]);
 
   return (
     <div className="dot-bg min-h-screen pb-44 bg-white flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">

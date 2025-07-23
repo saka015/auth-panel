@@ -27,6 +27,7 @@ export default function Login() {
     if (!formData.password) formErrors.password = "Password is required";
     return formErrors;
   };
+const baseURL = import.meta.env.VITE_API_BASE_URL;
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -35,13 +36,9 @@ export default function Login() {
       setIsSubmitting(true);
       setErrors({});
       try {
-        const response = await axios.post(
-          "http://localhost:5000/api/login",
-          formData,
-          {
-            headers: { "Content-Type": "application/json" },
-          }
-        );
+        const response = await axios.post(`${baseURL}/login`, formData, {
+          headers: { "Content-Type": "application/json" },
+        });
         if (response.status === 200) {
           message.success("Login successful!");
           const { token, user } = response.data.data;
