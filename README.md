@@ -9,5 +9,5 @@ Currently, two official plugins are available:
 
 ADMIN LOGIN :
 
-admin@gmail.com
-admin@123
+ID : admin@gmail.com && 
+Pass: admin@123
